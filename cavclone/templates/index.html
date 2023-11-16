@@ -1,0 +1,24 @@
+<!-- chat_view.html in chatapp/templates/chatapp -->
+<div id="header">
+    <h1>Cav Clone</h1>
+</div>
+<div id="results">
+    {% for query in queries %}
+    <p>{{ query.content }} -> {{ query.response }}</p>
+    {% endfor %}
+</div>
+<form method="post" action="" id="queryForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    // Submit the form on Enter key press in the text box
+    document.getElementById("id_content").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();  // Prevent the default Enter key behavior (e.g., new line)
+            document.getElementById("queryForm").submit();  // Submit the form
+        }
+    });
+</script>
