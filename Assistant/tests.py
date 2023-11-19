@@ -1,7 +1,7 @@
 from openai import OpenAI
 from dotenv import dotenv_values
 import os, json, time
-from assistant import assistantExists, createAssistant
+from assistant import assistantExists, createAssistant, CavClone
 
 environment_variables = dotenv_values()
 openai_api_key = environment_variables['OPENAI_API_KEY']
@@ -127,6 +127,13 @@ response = openai_client.beta.threads.delete(my_thread_id)
 print(f"Thread with id: {my_thread_id} deleted succesfully.")
 
 ##################################################################################################
+
+# Test 3 with OOP
+###################################################################################################
+
+message = "Hello! Why is the pythagorean theorem important?"
+my_clone = CavClone(openai_client)
+print(f"{my_clone.send_message(message)}")
 
 
 

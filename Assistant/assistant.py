@@ -10,48 +10,36 @@ class CavClone():
 
         if not os.path.exists(os.path.join(os.getcwd(), "assistant.json")):
             with open("assistant.json", "w") as f:
-                print(f"File created.")
                 pass
         # Set/Get assistant id
-        print(f"Retrieving assistant...")
-        if assistantExists(openai_client):
+        if assistantExists(self.client):
             with open("assistant.json", "r") as f:
                 self.assistant_id = json.load(f)
-            print(f"Assistant loaded from json file with id: {self.assistant_id}")
         else:
-            self.assistant_id = createAssistant(openai_client)
-            print(f"Assistant created with id: {self.assistant_id}")
+            self.assistant_id = createAssistant(self.client)
 
         # Create thread
-        print(f"Creating thread...")
-        openai_client = self.client
-        thread = openai_client.beta.threads.create()
+        thread = self.client.beta.threads.create()
         self.thread_id = thread.id
-        print(f"Thread created successfully with id: {self.thread_id}")
 
     def send_message(self, message: str) -> str:
-        openai_client = self.client
         try:
             # Store message in thread so that assistant can answer
-            print(f"Storing message...")
-            message_object = openai_client.beta.threads.messages.create(
+            message_object = self.client.beta.threads.messages.create(
                 self.thread_id,
                 role="user",
                 content=message 
             )
             # Execute call in order for assistant to process and answer the message
-            print(f"Message run started...")
-            message_run = openai_client.beta.threads.runs.create(
+            message_run = self.client.beta.threads.runs.create(
                 thread_id=self.thread_id,
                 assistant_id=self.assistant_id
             )
             run_id = message_run.id
-            print("MESSAGE SENT")
-            print("Waiting for assistant response...")
 
             # Poll for run status
             print(f"Polling for assistant response...")
-            run_status_response = openai_client.beta.threads.runs.retrieve(
+            run_status_response = self.client.beta.threads.runs.retrieve(
                 thread_id=self.thread_id,
                 run_id=run_id
             )
@@ -61,7 +49,7 @@ class CavClone():
                 time.sleep(15)
                 count = count + 1
                 print(f"Attempt {count}...")
-                run_status_response = openai_client.beta.threads.runs.retrieve(
+                run_status_response = self.client.beta.threads.runs.retrieve(
                     thread_id=self.thread_id,
                     run_id=run_id
                 )
@@ -76,18 +64,17 @@ class CavClone():
             print(f"{e}")
 
         # Display response to the console
-        message_list = openai_client.beta.threads.messages.list(
+        message_list = self.client.beta.threads.messages.list(
         thread_id=self.thread_id
         )
         response_message = message_list.data[0].content[0].text.value
-        print(f"Message: {response_message}")
+        
+        return response_message
 
     def __del__(self) -> None:
         # Delete Thread (May need to be changed later for simplification)
-        print(f"Deleting thread...")
-        openai_client = self.client
-        response = openai_client.beta.threads.delete(self.thread_id)
-        print(f"Thread with id: {self.thread_idthread_id} deleted succesfully.")
+        self.client = self.client
+        response = self.client.beta.threads.delete(self.thread_id)
 
 
 
