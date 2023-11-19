@@ -1,9 +1,10 @@
+from openai import OpenAI
 import json
 import os
 
 # Effectively creates a thread for the user to communicate with the assistant
 class CavClone():
-    def __init__(self, client):
+    def __init__(self, client: OpenAI) -> None:
         self.client = client
         self.assistant_id = ""
 
@@ -23,7 +24,7 @@ class CavClone():
         thread = openai_client.beta.threads.create()
         self.thread_id = thread.id
 
-    def send_message(self, message):
+    def send_message(self, message: str) -> str:
         openai_client = self.client
         try:
             message_object = openai_client.beta.threads.messages.create(
@@ -46,7 +47,7 @@ class CavClone():
             print("Error Details:")
             print(f"{e}")
 
-    def __del__(self):
+    def __del__(self) -> None:
         # Delete Thread (May need to be changed later for simplification)
         openai_client = self.client
         response = openai_client.beta.threads.delete(self.thread_id)
@@ -54,7 +55,7 @@ class CavClone():
 
 
 # Function to create an OpenAI Assistant
-def createAssistant(openai_client):
+def createAssistant(openai_client: OpenAI) -> str:
     # Create assistant
     # TODO: Change parameters to meet our objectives. Parameters are currently from the openai documentation examples
     assistant = openai_client.beta.assistants.create(
@@ -71,7 +72,7 @@ def createAssistant(openai_client):
     return assistant.id
     
 # Function that returns boolean value indicating whether or not an assistant already exists
-def assistantExists(openai_client):
+def assistantExists(openai_client: OpenAI) -> bool:
     my_assistant = ""
     try:
         my_assistant = openai_client.beta.assistants.retrieve("asst_abc123")
