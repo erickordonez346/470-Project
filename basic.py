@@ -11,10 +11,11 @@ from datetime import datetime
 import elevenlabs
 from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key
 
+# API Key that has Cav Voice, try not to use it too much as it's not unlimited
 elevenlabs.set_api_key('183cf9ac1aac0a221c24d1115336fdc4')
 
 # Set your API key
-api_key = "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"
+api_key = "api_key"
 
 #### INFORMATION GATHERING HELPER FUNCTIONS ####
 query = input("Ask Cav a Question: ")
