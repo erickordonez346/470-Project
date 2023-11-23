@@ -7,8 +7,14 @@ import http.client
 import os
 from datetime import datetime
 
+# 11 Labs Imports and Setting API Key
+import elevenlabs
+from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key
+
+elevenlabs.set_api_key('183cf9ac1aac0a221c24d1115336fdc4')
+
 # Set your API key
-api_key = "api_key"
+api_key = "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"
 
 #### INFORMATION GATHERING HELPER FUNCTIONS ####
 query = input("Ask Cav a Question: ")
@@ -66,6 +72,19 @@ def format_response(api_response, max_width=80):
 
 response = openai_query()
 result_text = response["choices"][0]["text"]
+
+# Calling 11 Labs Cav Voice
+audio = generate(
+    text= result_text,
+    voice=Voice(
+        voice_id='O50T1e73qysLLp01btAR',
+        settings=VoiceSettings(stability=0.88, similarity_boost=0.88, style=0.05, use_speaker_boost=True)
+    ),
+    model="eleven_multilingual_v2"
+)
+
+play(audio)
+
 # result_text = "didn't run chatGPT"
 print("Prompt:\n\n" + PROMPT)
 print(result_text)
