@@ -16,25 +16,27 @@
             <h1>CAV CLONE</h1>
         </div>
     </header>
-    <div id="results">
-        {% for query in queries %}
-        <div id="user">
-            <h4>User:</h4>
-            <p>{{ query.content }}</p>
+    <div id="content">
+        <div id="results">
+            {% for query in queries %}
+            <div id="user">
+                <h4>User:</h4>
+                <p>{{ query.content }}</p>
+            </div>
+            <div id="cav">
+                <h4> Cav: </h4>
+                <p>{{ query.response }} </p>
+            </div>
+            {% endfor %}
         </div>
-        <div id="cav">
-            <h4> Cav: </h4>
-            <p>{{ query.response }} </p>
+        <div id="formcontainer">
+            <form method="post" action="" id="queryForm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" id="submitButton">
+                    <img src="../static/admin/img/cav2.png"> </button>
+            </form>
         </div>
-        {% endfor %}
-    </div>
-    <div id="formcontainer">
-        <form method="post" action="" id="queryForm">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" id="submitButton">
-                <img src="../static/admin/img/cav2.png"> </button>
-        </form>
     </div>
 
 
@@ -50,6 +52,10 @@
         window.addEventListener("unload", (e) => {
             unload();
         })
+
+        window.onload = function () {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
 
     </script>
 </body>

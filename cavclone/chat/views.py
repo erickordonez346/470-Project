@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .forms import QueryForm
 from .models import Query, Activity
+from dotenv import dotenv_values
 import json
 import re
 import textwrap
@@ -12,7 +13,8 @@ import http.client
 import os
 from datetime import datetime, timezone
 
-api_key = "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"
+environment_variables = dotenv_values()
+api_key = environment_variables["OPENAI_API_KEY"]
 
 ENGINE = "text-davinci-003"
 
@@ -46,18 +48,20 @@ def openai_query(prompt, temperature=0.19, max_tokens=MAX_TOKENS, engine=ENGINE)
         "prompt": prompt,
         "max_tokens": max_tokens,
         "temperature": temperature,
+        # "stream": True,
     }
     endpoint_url = "api.openai.com/v1/completions"
     headers = {
         "Content-Type": "application/json",
         "Authorization": "Bearer {openai_api_key}".format(openai_api_key=api_key),
+        # "Accept": "text/event-stream",
     }
     connection = http.client.HTTPSConnection("api.openai.com")
     print(connection)
     json_req_data = json.dumps(data)
     connection.request("POST", "/v1/completions", json_req_data, headers)
     connection_response = connection.getresponse()
-    print(connection_response)
+    print(connection_response.status)
     response_data = connection_response.read()
     connection.close()
     parsed_data = json.loads(response_data)
