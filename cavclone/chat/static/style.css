@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Hi+Melody');
+@import url('https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible');
+
+
+/* text */
+h1 {
+    font-family: 'Hi Melody';
+    color: #ebe8e3;
+    padding: 1.5%;
+}
+
+h4 {
+    font-family: 'Atkinson Hyperlegible';
+    color: #9fbab5;
+}
+
+p {
+    font-family: 'Atkinson HyperLegible';
+    margin-left: 7%;
+    margin-right: 7%;
+}
+
+/* display */
+
+html {
+    background-color: #ebe8e3;
+}
+
+#results {
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+#header {
+    background-color: #e3654b;
+    border-radius: 15px;
+    width: 150px;
+    text-align: center;
+    border: 1.5%;
+}
+
+#user {
+    background-color: #fff4dd;
+    border: 1%;
+    margin: 1%;
+}
+
+
+#cav {
+    border: 1%;
+    margin: 1%;
+}
+
+#formcontainer {
+    background-color: black;
+}
+
+/* form */
+button {
+    background-color: #e3654b;
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 50px;
+    align-items: center;
+}
+
+button:active {
+    background-color: #ff8854;
+}
+
+button:hover {
+    background-color: #ff8854;
+}
+
+img {
+    height: 40px;
+}
+
+label {
+    visibility: hidden;
+}
+
+textarea {
+    width: 100%;
+    height: 10%;
+    background-color: black;
+}

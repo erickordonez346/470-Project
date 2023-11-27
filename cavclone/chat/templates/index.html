@@ -1,0 +1,57 @@
+<!-- chat_view.html in chatapp/templates/chatapp -->
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static "style.css" %}'>
+    <!-- <script src="main.js"></script> -->
+</head>
+
+
+<body>
+    <header>
+        <div id="header">
+            <h1>CAV CLONE</h1>
+        </div>
+    </header>
+    <div id="results">
+        {% for query in queries %}
+        <div id="user">
+            <h4>User:</h4>
+            <p>{{ query.content }}</p>
+        </div>
+        <div id="cav">
+            <h4> Cav: </h4>
+            <p>{{ query.response }} </p>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="formcontainer">
+        <form method="post" action="" id="queryForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" id="submitButton">
+                <img src="../static/admin/img/cav2.png"> </button>
+        </form>
+    </div>
+
+
+    <script>
+        // Submit the form on Enter key press in the text box
+        document.getElementById("id_content").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // Prevent the default Enter key behavior (e.g., new line)
+                document.getElementById("queryForm").submit();  // Submit the form
+            }
+        });
+
+        window.addEventListener("unload", (e) => {
+            unload();
+        })
+
+    </script>
+</body>
+
+</html>

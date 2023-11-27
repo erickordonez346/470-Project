@@ -1,7 +1,8 @@
+import time
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .forms import QueryForm
-from .models import Query
+from .models import Query, Activity
 import json
 import re
 import textwrap
@@ -9,9 +10,9 @@ import json
 import logging
 import http.client
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
-api_key = "apikey"
+api_key = "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"
 
 ENGINE = "text-davinci-003"
 
@@ -80,6 +81,9 @@ def format_response(api_response, max_width=80):
     return "\n" + formatted_response.strip() + "\n"
 
 
+# -----------------------------------------PAGE VIEWS-----------------------------------------
+
+
 def index(request):
     queries = Query.objects.all()
     form = QueryForm()
@@ -95,15 +99,43 @@ def index(request):
 
             # display clean
             form = QueryForm()
+            return HttpResponseRedirect("chat")
         else:
             output = "no input! this is not expected to ever be hit"
     else:
-        return render(request, "index.html", {"queries": queries, "form": form})
+        return render(
+            request,
+            "index.html",
+            {
+                "queries": queries,
+                "form": form,
+            },
+        )
     return render(
-        request, "index.html", {"queries": queries, "form": form, "output": output}
+        request,
+        "index.html",
+        {
+            "queries": queries,
+            "form": form,
+            "output": output,
+        },
     )
 
 
 def about(request):
     response = "Howdy! This is a project for CSCE 470: Information Storage and Retreival at Texas A&M University"
     return HttpResponse(response)
+
+
+def record_activity(request):
+    if request.method == "POST":
+        Activity.objects.creat(enter_time=timezone.now())
+        return JsonResponse({"status": "entered"})
+    elif request.method == "PUT":
+        activity = Activity.objects.filter(exit_time__isnull=True).last()
+        if activity:
+            activity.exit_time = timezone.now()
+            activity.save()
+            return JsonResponse({"status": "exited"})
+
+    return HttpResponse(request)

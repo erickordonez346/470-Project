@@ -16,6 +16,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = "../chat/static"
+# STATIC_FILES_DIR = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = "470-Project/static"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -81,6 +84,10 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Password validation
