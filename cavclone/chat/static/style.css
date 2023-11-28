@@ -2,34 +2,45 @@
 @import url('https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible');
 
 
+:root {
+    --background: #282e2e;
+    --main_text: #e9e5da;
+    --accent-color: #e9a56c;
+    --accent-nuetral: #cbd8cc;
+    --secondary-text: #cacaa7;
+
+}
+
 /* text */
 h1 {
     font-family: 'Hi Melody';
-    color: #ebe8e3;
+    color: var(--background);
     padding: 1.5%;
 }
 
 h4 {
     font-family: 'Atkinson Hyperlegible';
-    color: #9fbab5;
+    color: var(--secondary-text);
+    padding-left: 3%;
 }
 
 p {
     font-family: 'Atkinson HyperLegible';
     margin-left: 7%;
     margin-right: 7%;
+    color: var(--main_text);
 }
 
 /* display */
 
 html {
-    background-color: #ebe8e3;
+    background-color: var(--background);
 }
 
 body {
     margin: 0;
     padding-top: 100px;
-    padding-bottom: 100px;
+    padding-bottom: 200px;
     min-height: 100%;
     overflow-y: scroll;
 }
@@ -45,18 +56,22 @@ body {
 }
 
 #header {
-    background-color: #e3654b;
-    border-radius: 15px;
-    width: 100%;
+    /* background-color: var(--background);
     height: 50px;
-    top: 0;
+    border: 1.5%; */
     text-align: center;
-    border: 1.5%;
+    width: 100%;
+    top: 0;
     position: fixed;
 }
 
+#title {
+    background-color: var(--accent-color);
+    width: 10%;
+    padding: 10px;
+}
+
 #user {
-    background-color: #fff4dd;
     border: 1%;
     margin: 1%;
 }
@@ -65,40 +80,86 @@ body {
 #cav {
     border: 1%;
     margin: 1%;
+    border-bottom: var(--accent-nuetral) 1px solid;
+
+    /* overflow: hidden;
+    border-right: .15em var(--accent-color);
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; */
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-right-color: transparent
+    }
+
+    50% {
+        border-right-color: var(--accent-color)
+    }
 }
 
 #formcontainer {
-    /* background-color: #ebe8e3; */
-    background-color: black;
+    /*
+    overflow: hidden;
+    display: block;
+    align-items: center;
+    padding: 1%;
+    */
+
+    background-color: var(--background);
+    width: 100%;
     bottom: 0;
     position: fixed;
-    overflow: hidden;
-    width: 100%;
-    padding-bottom: 1%;
-    align-items: center;
-}
-
-/* form */
-button {
-    background-color: #e3654b;
-    border: none;
-    border-radius: 15px;
-    height: 50px;
-    width: 50px;
-    float: left;
-    /* margin-bottom: 30px; */
-    /* border-bottom: 30px; */
-    position: relative;
-    bottom: 20px;
-
 }
 
 textarea {
     resize: none;
-    width: 95%;
+    width: 100%;
+    /* flex: 1; */
+    /* Takes up remaining space */
     height: 50px;
-    margin-right: 10px;
-    float: left;
+    outline: none;
+    color: var(--background);
+    background-color: var(--accent-nuetral);
+    /* border-color: #9fbab5; */
+    font-family: 'Atkinson Hyperlegible';
+    padding: 1%;
+}
+
+button {
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 90%;
+    visibility: hidden;
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    /* Optional: Add some margin between textarea and button */
+
+    /* background-color: var(--accent-color);
+    border-radius: 15px;
+    width: 100%;
+    height: 50px;
+    top: 0;
+    text-align: center;
+    border: 1.5%;
+    position: fixed; */
 }
 
 button:active {

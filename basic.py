@@ -6,16 +6,18 @@ import logging
 import http.client
 import os
 from datetime import datetime
+from dotenv import dotenv_values
 
 # 11 Labs Imports and Setting API Key
 import elevenlabs
-from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key
+from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save
 
 # API Key that has Cav Voice, try not to use it too much as it's not unlimited
-elevenlabs.set_api_key('183cf9ac1aac0a221c24d1115336fdc4')
+environment_variables = dotenv_values()
+elevenlabs.set_api_key(environment_variables["ELEVEN_LABS_API_KEY"])
 
 # Set your API key
-api_key = "api_key"
+api_key = environment_variables["OPENAI_API_KEY"]
 
 #### INFORMATION GATHERING HELPER FUNCTIONS ####
 query = input("Ask Cav a Question: ")
@@ -76,22 +78,23 @@ result_text = response["choices"][0]["text"]
 
 # Calling 11 Labs Cav Voice
 audio = generate(
-    text= result_text,
+    text=result_text,
     voice=Voice(
-        voice_id='O50T1e73qysLLp01btAR',
-        settings=VoiceSettings(stability=0.88, similarity_boost=0.88, style=0.05, use_speaker_boost=True)
+        voice_id="O50T1e73qysLLp01btAR",
+        settings=VoiceSettings(
+            stability=0.88, similarity_boost=0.88, style=0.05, use_speaker_boost=True
+        ),
     ),
-    model="eleven_multilingual_v2"
+    model="eleven_multilingual_v2",
 )
 
 play(audio)
+save(audio, "result.mp3")
 
 # result_text = "didn't run chatGPT"
 print("Prompt:\n\n" + PROMPT)
 print(result_text)
 
 # write results to file
-with open("results.txt", "w") as file:
-    file.write("Run at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    file.write(result_text)
-    file.write("\n\n---------------------------\n\n")
+# with open("results.mp3", "wb") as file:
+#     for chunk in audio.iter_content(chunk_size=)

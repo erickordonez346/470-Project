@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Hi+Melody');
+@import url('https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible');
+
+header,
+body,
+h1,
+h2,
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+h1 {
+    color: #ebe8e3;
+}
+
+h4 {
+    color: #9fbab5;
+}
+
+p {
+    margin-left: 7%;
+    margin-right: 7%;
+}
+
+body {
+    background-color: #ebe8e3;
+}
+
+#content {
+    max-width: 80%;
+    /* margin: 20px auto; */
+    border-radius: 8px;
+    /* overflow: hidden; */
+}
+
+#header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#results {
+    /* padding: 20px;
+    max-height: 300px; */
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+#user,
+#cav {
+    margin-bottom: 15px;
+}
+
+#user {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    /* border-radius: 8px; */
+    /* display: inline-block; */
+}
+
+#cav {
+    background-color: #eee;
+    padding: 10px;
+    /* border-radius: 8px; */
+    /* display: inline-block; */
+}
+
+#formcontainer {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    background-color: #ebe8e3;
+    width: 100%;
+    height: 10%
+}
+
+textarea {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 100%;
+}
+
+#submitButton {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px
+}
+
+#submitButton:hover {
+    background-color: #45a049;
+}
+
+label {
+    visibility: hidden;
+}

@@ -12,77 +12,49 @@ import logging
 import http.client
 import os
 from datetime import datetime, timezone
+from openai import OpenAI
+from .response import assistantExists, createAssistant, CavClone
+import elevenlabs
+from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save
+
+# from audio import get_audio
+
 
 environment_variables = dotenv_values()
-api_key = environment_variables["OPENAI_API_KEY"]
-
-ENGINE = "text-davinci-003"
-
-MAX_TOKENS = 2048
-
-output = ""
+openai_api_key = environment_variables["OPENAI_API_KEY"]
+elevenlabs.set_api_key(environment_variables["ELEVEN_LABS_API_KEY"])
 
 
-def query(userinput):
-    PROMPT = (
-        "Return a response to the following question in the character of Ted Lasso:\n"
-        + str(userinput)
+openai_client = OpenAI(api_key=openai_api_key)
+clone = CavClone(openai_client)
+
+
+# response from assistant
+def get_response(query):
+    return clone.send_message(query)
+
+
+def get_audio(response):
+    print("Generating audio...")
+    audio = generate(
+        text=response,
+        voice=Voice(
+            voice_id="O50T1e73qysLLp01btAR",
+            settings=VoiceSettings(
+                stability=0.88,
+                similarity_boost=0.88,
+                style=0.05,
+                use_speaker_boost=True,
+            ),
+        ),
+        model="eleven_multilingual_v2",
     )
-    response = openai_query(PROMPT)
-    result_text = response["choices"][0]["text"]
-    return result_text
-    # result_text = "didn't run chatGPT"
-    # print("Prompt:\n\n" + PROMPT)
-    # print(result_text)
+    print("Audio Generation: completed")
 
-    # # write results to file
-    # with open("results.txt", "w") as file:
-    #     file.write("Run at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    #     file.write(result_text)
-    #     file.write("\n\n---------------------------\n\n")
+    save(audio, "output.mp3")
+    print("Audio Saved")
 
-
-def openai_query(prompt, temperature=0.19, max_tokens=MAX_TOKENS, engine=ENGINE):
-    data = {
-        "model": engine,
-        "prompt": prompt,
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-        # "stream": True,
-    }
-    endpoint_url = "api.openai.com/v1/completions"
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer {openai_api_key}".format(openai_api_key=api_key),
-        # "Accept": "text/event-stream",
-    }
-    connection = http.client.HTTPSConnection("api.openai.com")
-    print(connection)
-    json_req_data = json.dumps(data)
-    connection.request("POST", "/v1/completions", json_req_data, headers)
-    connection_response = connection.getresponse()
-    print(connection_response.status)
-    response_data = connection_response.read()
-    connection.close()
-    parsed_data = json.loads(response_data)
-    logging.info("OpenAI request succeeded!")
-    logging.info("Response: {data}".format(data=parsed_data))
-    return parsed_data
-
-
-def format_response(api_response, max_width=80):
-    # Split the response into sentences
-    sentences = re.split("(?<=[.!?]) +", api_response)
-
-    # Initialize the formatted response string
-    formatted_response = ""
-
-    # Iterate through the sentences, wrapping and adding them to the formatted response
-    for sentence in sentences:
-        wrapped_sentence = textwrap.fill(sentence, width=max_width)
-        formatted_response += wrapped_sentence + "\n\n"
-
-    return "\n" + formatted_response.strip() + "\n"
+    return "cavclone/output.mp3"
 
 
 # -----------------------------------------PAGE VIEWS-----------------------------------------
@@ -96,8 +68,10 @@ def index(request):
         form = QueryForm(request.POST)
         if form.is_valid():
             user_input = form.cleaned_data["content"]
-            # output = query(user_input)
-            output = "no gpt used"
+            output = get_response(user_input)
+            audio = get_audio(output)
+            print(audio)
+            # output = "no gpt used"
             form = Query(content=user_input, response=output)
             form.save()
 
@@ -122,6 +96,7 @@ def index(request):
             "queries": queries,
             "form": form,
             "output": output,
+            "audio": audio,
         },
     )
 
