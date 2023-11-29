@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css?family=Hi+Melody');
+@import url('https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible');
+
+
+:root {
+    --background: #282e2e;
+    --main_text: #e9e5da;
+    --accent-color: #e9a56c;
+    --accent-nuetral: #cbd8cc;
+    --secondary-text: #cacaa7;
+
+}
+
+/* text */
+h1 {
+    font-family: 'Hi Melody';
+    color: var(--background);
+    padding: 1.5%;
+}
+
+h4 {
+    font-family: 'Atkinson Hyperlegible';
+    color: var(--secondary-text);
+    padding-left: 3%;
+    font-size: medium;
+}
+
+p {
+    font-family: 'Atkinson HyperLegible';
+    margin-left: 7%;
+    margin-right: 7%;
+    color: var(--main_text);
+}
+
+/* display */
+
+html {
+    background-color: var(--background);
+}
+
+body {
+    margin: 0;
+    padding-top: 100px;
+    padding-bottom: 200px;
+    min-height: 100%;
+    overflow-y: scroll;
+}
+
+#content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#results {
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+#header {
+    /* background-color: var(--background);
+    height: 50px;
+    border: 1.5%; */
+    text-align: center;
+    width: 100%;
+    top: 0;
+    position: fixed;
+}
+
+#title {
+    background-color: var(--accent-color);
+    width: 10%;
+    padding: 10px;
+}
+
+#user {
+    border: 1%;
+    margin: 1%;
+}
+
+
+#cav {
+    border: 1%;
+    margin: 1%;
+    border-bottom: var(--accent-nuetral) 1px solid;
+
+    /* overflow: hidden;
+    border-right: .15em var(--accent-color);
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; */
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-right-color: transparent
+    }
+
+    50% {
+        border-right-color: var(--accent-color)
+    }
+}
+
+#formcontainer {
+    /*
+    overflow: hidden;
+    display: block;
+    align-items: center;
+    padding: 1%;
+    */
+
+    background-color: var(--background);
+    width: 90%;
+    bottom: 0;
+    position: fixed;
+    display: block;
+    padding: 3%;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    color: var(--background);
+    background-color: var(--accent-nuetral);
+    font-family: 'Atkinson Hyperlegible';
+    padding: 1%;
+    float: left;
+}
+
+#submitButton {
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 50px;
+    float: right;
+}
+
+
+#submitButton:active {
+    background-color: #ff8854;
+}
+
+#submitButton:hover {
+    background-color: #ff8854;
+}
+
+.audioButton {
+    background-color: var(--background);
+    border: none;
+    font-size: medium;
+    padding-left: 3%;
+}
+
+.audioButton:hover {
+    cursor: pointer;
+}
+
+img {
+    height: 40px;
+}
+
+label {
+    visibility: hidden;
+}
+
+audio {
+    display: none;
+}
