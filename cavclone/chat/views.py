@@ -11,6 +11,7 @@ import json
 import logging
 import http.client
 import os
+import random
 from datetime import datetime, timezone
 from openai import OpenAI
 from .response import assistantExists, createAssistant, CavClone
@@ -23,7 +24,6 @@ from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save
 environment_variables = dotenv_values()
 openai_api_key = environment_variables["OPENAI_API_KEY"]
 elevenlabs.set_api_key(environment_variables["ELEVEN_LABS_API_KEY"])
-
 
 openai_client = OpenAI(api_key=openai_api_key)
 clone = CavClone(openai_client)
@@ -51,10 +51,15 @@ def get_audio(response):
     )
     print("Audio Generation: completed")
 
-    save(audio, "output.mp3")
-    print("Audio Saved")
+    audio_num = "output_" + str(random.randint(0, 2147483648)) + ".mp3"
+    save(audio, "chat/static/audio_files/" + audio_num)
 
-    return "cavclone/output.mp3"
+    return audio_num
+
+
+# <audio controls>
+#                 <source src="cavclone/output.mp3" type="audio/mpeg">Testing!
+#             </audio>
 
 
 # -----------------------------------------PAGE VIEWS-----------------------------------------
@@ -68,11 +73,13 @@ def index(request):
         form = QueryForm(request.POST)
         if form.is_valid():
             user_input = form.cleaned_data["content"]
-            output = get_response(user_input)
+            # output = get_response(user_input)
+            output = "no gpt"
             audio = get_audio(output)
+            # audio = "/cavclone/output.mp3"
             print(audio)
             # output = "no gpt used"
-            form = Query(content=user_input, response=output)
+            form = Query(content=user_input, response=output, audio_path=audio)
             form.save()
 
             # display clean

@@ -6,6 +6,7 @@ from django.db import models
 class Query(models.Model):
     content = models.TextField()
     response = models.TextField()
+    audio_path = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
 

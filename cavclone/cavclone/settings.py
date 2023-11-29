@@ -17,6 +17,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_URL = "../chat/static"
+MEDIA_URL = "../chat/media/"
 # STATIC_FILES_DIR = [os.path.join(BASE_DIR, "static")]
 # STATIC_ROOT = "470-Project/static"
 

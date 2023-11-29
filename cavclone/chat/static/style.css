@@ -177,3 +177,7 @@ img {
 label {
     visibility: hidden;
 }
+
+audio {
+    display: none;
+}

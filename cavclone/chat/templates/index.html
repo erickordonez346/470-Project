@@ -6,6 +6,9 @@
 <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href='{% static "style.css" %}'>
+    <!-- Inside your HTML head section -->
+    <link rel="icon" type="image/x-icon" href="{% static 'admin/img/favicon.ico' %}">
+
     <!-- <script src="main.js"></script> -->
 </head>
 
@@ -27,13 +30,15 @@
                 <h4> Cav: </h4>
                 <p>{{ query.response }} </p>
             </div>
-            {% endfor %}
 
-            <!-- {% if audio %} -->
-            <audio controls>
-                <source src="cavclone/output.mp3" type="audio/mpeg">Testing!
+            {% if forloop.last %}
+            <audio controls autoplay id="voice">
+                <source src="../static/audio_files/{{ query.audio_path }}" type="audio/mp3">
+                Your browser does not support audio
             </audio>
-            <!-- {% endif %} -->
+            {% endif %}
+
+            {% endfor %}
         </div>
         <div id="formcontainer">
             <form method="post" action="" id="queryForm">
