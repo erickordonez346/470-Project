@@ -9,7 +9,6 @@
     <!-- Inside your HTML head section -->
     <link rel="icon" type="image/x-icon" href="{% static 'admin/img/favicon.ico' %}">
 
-    <!-- <script src="main.js"></script> -->
 </head>
 
 
@@ -27,12 +26,15 @@
                 <p>{{ query.content }}</p>
             </div>
             <div id="cav">
-                <h4> Cav: </h4>
+                <button class="audioButton">
+                    <h4>Cav:</h4>
+                </button>
+                <audio src="../static/audio_files/{{ query.audio_path }}" class="prevAudio"></audio>
                 <p>{{ query.response }} </p>
             </div>
 
             {% if forloop.last %}
-            <audio controls autoplay id="voice">
+            <audio controls autoplay class="voice">
                 <source src="../static/audio_files/{{ query.audio_path }}" type="audio/mp3">
                 Your browser does not support audio
             </audio>
@@ -44,9 +46,10 @@
             <form method="post" action="" id="queryForm">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <button type="submit" id="submitButton">
+                    <img src="../static/admin/img/cav2.png">
+                </button>
             </form>
-            <button type="submit" id="submitButton">
-                <img src="../static/admin/img/cav2.png"> </button>
         </div>
     </div>
 
@@ -57,6 +60,7 @@
             if (event.key === "Enter") {
                 event.preventDefault();  // Prevent the default Enter key behavior (e.g., new line)
                 document.getElementById("queryForm").submit();  // Submit the form
+                document.getElementById("id_content").value = '';
             }
         });
 
@@ -67,6 +71,15 @@
         window.onload = function () {
             window.scrollTo(0, document.body.scrollHeight);
         }
+
+        var buttons = document.querySelectorAll('.audioButton');
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var audio = this.nextElementSibling;
+
+                audio.play();
+            });
+        });
 
     </script>
 </body>

@@ -1,24 +1,14 @@
 import time
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import QueryForm
-from .models import Query, Activity
+from .models import Query
 from dotenv import dotenv_values
-import json
-import re
-import textwrap
-import json
-import logging
-import http.client
-import os
 import random
-from datetime import datetime, timezone
 from openai import OpenAI
-from .response import assistantExists, createAssistant, CavClone
+from .response import CavClone
 import elevenlabs
-from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save
-
-# from audio import get_audio
+from elevenlabs import Voice, VoiceSettings, generate, save
 
 
 environment_variables = dotenv_values()
@@ -26,6 +16,7 @@ openai_api_key = environment_variables["OPENAI_API_KEY"]
 elevenlabs.set_api_key(environment_variables["ELEVEN_LABS_API_KEY"])
 
 openai_client = OpenAI(api_key=openai_api_key)
+
 clone = CavClone(openai_client)
 
 
@@ -57,11 +48,6 @@ def get_audio(response):
     return audio_num
 
 
-# <audio controls>
-#                 <source src="cavclone/output.mp3" type="audio/mpeg">Testing!
-#             </audio>
-
-
 # -----------------------------------------PAGE VIEWS-----------------------------------------
 
 
@@ -73,12 +59,10 @@ def index(request):
         form = QueryForm(request.POST)
         if form.is_valid():
             user_input = form.cleaned_data["content"]
-            # output = get_response(user_input)
-            output = "no gpt"
+            output = get_response(user_input)
             audio = get_audio(output)
-            # audio = "/cavclone/output.mp3"
-            print(audio)
-            # output = "no gpt used"
+            # output = "no gpt"
+            # audio = "output_2067994949.mp3"
             form = Query(content=user_input, response=output, audio_path=audio)
             form.save()
 
@@ -111,17 +95,3 @@ def index(request):
 def about(request):
     response = "Howdy! This is a project for CSCE 470: Information Storage and Retreival at Texas A&M University"
     return HttpResponse(response)
-
-
-def record_activity(request):
-    if request.method == "POST":
-        Activity.objects.creat(enter_time=timezone.now())
-        return JsonResponse({"status": "entered"})
-    elif request.method == "PUT":
-        activity = Activity.objects.filter(exit_time__isnull=True).last()
-        if activity:
-            activity.exit_time = timezone.now()
-            activity.save()
-            return JsonResponse({"status": "exited"})
-
-    return HttpResponse(request)
