@@ -10,7 +10,7 @@ from dotenv import dotenv_values
 
 # 11 Labs Imports and Setting API Key
 import elevenlabs
-from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save
+from elevenlabs import Voice, VoiceSettings, generate, play, set_api_key, save, stream
 
 # API Key that has Cav Voice, try not to use it too much as it's not unlimited
 environment_variables = dotenv_values()
@@ -86,9 +86,10 @@ audio = generate(
         ),
     ),
     model="eleven_multilingual_v2",
+    stream=True
 )
 
-play(audio)
+stream(audio)
 save(audio, "result.mp3")
 
 # result_text = "didn't run chatGPT"
