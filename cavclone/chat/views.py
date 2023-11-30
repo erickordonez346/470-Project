@@ -8,7 +8,7 @@ import random
 from openai import OpenAI
 from .response import CavClone
 import elevenlabs
-from elevenlabs import Voice, VoiceSettings, generate, save
+from elevenlabs import Voice, VoiceSettings, generate, save, stream
 
 
 environment_variables = dotenv_values()
@@ -26,6 +26,20 @@ def get_response(query):
 
 
 def get_audio(response):
+    print("Streaming Audio")
+    audio_stream = generate(
+        text=response,
+        voice=Voice(
+        voice_id="O50T1e73qysLLp01btAR",
+        settings=VoiceSettings(
+            stability=0.88, similarity_boost=0.88, style=0.05, use_speaker_boost=True
+            ),
+        ),
+        model="eleven_multilingual_v2",
+        stream=True
+    )
+    stream(audio_stream)
+    print("Finished Streaming Audio")
     print("Generating audio...")
     audio = generate(
         text=response,
